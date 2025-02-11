@@ -18,7 +18,6 @@ function Dashboard() {
       title: "To Do List - Dashboard",
     });
     getActivities();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Suspense fallback={<p>Loading...</p>}>
