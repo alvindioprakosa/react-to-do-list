@@ -2,11 +2,13 @@ import React from "react";
 
 function Header() {
   return (
-    <div className="header">
+    <header className="header">
       <div data-cy="header-background" className="container">
-        <h2 data-cy="header-title">TO DO LIST APP</h2>
+        <h2 data-cy="header-title" className="header-title">
+          TO DO LIST APP
+        </h2>
       </div>
-    </div>
+    </header>
   );
 }
 
