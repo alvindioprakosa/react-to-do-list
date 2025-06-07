@@ -1,28 +1,35 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Modal } from "react-bootstrap";
+import classNames from "classnames";
 
-function ModalToast({ show, handleClose, title, text, type }) {
+function ModalToast({ show, handleClose, text, type }) {
+  const onClose = useCallback(() => {
+    handleClose();
+  }, [handleClose]);
+
   return (
-    <div data-cy="modal-information">
-      <Modal
-        show={show}
-        onHide={handleClose}
-        className="modal-toast"
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
+    <Modal
+      show={show}
+      onHide={onClose}
+      size="md"
+      centered
+      data-cy="modal-information"
+    >
+      <Modal.Header closeButton onClick={onClose}></Modal.Header>
+      <Modal.Body
+        onClick={onClose}
+        data-cy="modal-information-body"
       >
-        <Modal.Body onClick={handleClose}>
-          <div
-            data-cy="modal-information-icon"
-            className={type === "success" ? "icon-alert-sm" : "icon-danger-sm"}
-          ></div>
-          <p data-cy="modal-information-title" className="pl-3 pr-3">
-            {text}
-          </p>
-        </Modal.Body>
-      </Modal>
-    </div>
+        <div
+          data-cy="modal-information-icon"
+          className={classNames({
+            "icon-alert-sm": type === "success",
+            "icon-danger-sm": type !== "success",
+          })}
+        />
+        <p data-cy="modal-information-title">{text}</p>
+      </Modal.Body>
+    </Modal>
   );
 }
 
