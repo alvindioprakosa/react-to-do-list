@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import PropTypes from 'prop-types';
 import { Modal } from "react-bootstrap";
 import classNames from "classnames";
 
@@ -6,6 +7,13 @@ function ModalToast({ show, handleClose, text, type }) {
   const onClose = useCallback(() => {
     handleClose();
   }, [handleClose]);
+
+  const iconClass = useCallback(() => {
+    return classNames({
+      "icon-alert-sm": type === "success",
+      "icon-danger-sm": type !== "success",
+    });
+  }, [type]);
 
   return (
     <Modal
@@ -15,22 +23,31 @@ function ModalToast({ show, handleClose, text, type }) {
       centered
       data-cy="modal-information"
     >
-      <Modal.Header closeButton onClick={onClose}></Modal.Header>
+      <Modal.Header 
+        closeButton 
+        onClick={onClose}
+      />
       <Modal.Body
         onClick={onClose}
         data-cy="modal-information-body"
       >
         <div
           data-cy="modal-information-icon"
-          className={classNames({
-            "icon-alert-sm": type === "success",
-            "icon-danger-sm": type !== "success",
-          })}
+          className={iconClass()}
         />
-        <p data-cy="modal-information-title">{text}</p>
+        <p data-cy="modal-information-title">
+          {text}
+        </p>
       </Modal.Body>
     </Modal>
   );
 }
 
-export default ModalToast;
+ModalToast.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  text: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['success', 'danger']).isRequired
+};
+
+export default React.memo(ModalToast);
